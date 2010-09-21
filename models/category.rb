@@ -2,7 +2,7 @@ class Category
   include DataMapper::Resource
   
   property :id,      Serial
-  property :title,   String
+  property :name,   String
   
   has n, :projects
 end
