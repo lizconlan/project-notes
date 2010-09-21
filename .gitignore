@@ -1,3 +1,4 @@
 data/projects.csv
-data/*.db
+db/*.db
+.DS_Store
 */.DS_Store
