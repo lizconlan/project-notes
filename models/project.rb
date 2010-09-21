@@ -30,7 +30,7 @@ class Project
     @gh_data['repository']['homepage']
   end
   
-  def commits_by_month month, year
+  def commits_by_month_and_year month, year
     monthly_commits = commits.dup
     monthly_commits.delete_if { |x| x.month != month || x.year != year }
   end
