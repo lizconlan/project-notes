@@ -7,7 +7,7 @@ require 'spec/rake/spectask'
 require 'models/category'
 require 'models/project'
 
-path_to_db = File.expand_path(File.dirname(__FILE__) + "/data")
+path_to_db = File.expand_path(File.dirname(__FILE__) + "/db")
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{path_to_db}/projects.db")
 
 Spec::Rake::SpecTask.new do |t|
