@@ -21,9 +21,9 @@ class Timesheet
         @total_commits += commits.count
       end
       sheet.each do |entry|
-        percentage = entry[:commits_made] / @total_commits * 100
+        percentage = entry[:commits_made].to_f / @total_commits * 100
         entry[:percentage] = (sprintf "%.2f", percentage).to_f
       end
-      sheet
+      sheet.delete_if { |x| x[:commits_made] == 0 }
     end
 end
