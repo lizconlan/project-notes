@@ -19,7 +19,7 @@ class Project
   end
   
   def link
-    "\#"
+    "/#{id}"
   end
   
   def gh_desc
