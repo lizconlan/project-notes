@@ -12,6 +12,7 @@ class Project
   property :gh_repo, String
   
   belongs_to :category
+  has n, :groups, :through => Resource
   
   def init
     @gh_data = gh_repo_data() unless @gh_data

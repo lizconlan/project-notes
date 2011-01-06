@@ -1,0 +1,43 @@
+{
+  "categories": [
+    {
+      "category": {
+        "name": "Category 1",
+        "projects": [
+          {
+            "project": {
+              "name": "Project 1",
+              "repo": "http://url/goes/here" 
+            } 
+          },
+          {
+            "project": {
+              "name": "Project 2",
+              "repo": "http://url/goes/here" 
+            }
+          },
+          {
+            "group": {
+              "name": "Group",
+              "desc": "",
+              "projects": [
+                {
+                  "project": {
+                    "name": "Project 3",
+                    "repo": "http://url/goes/here" 
+                  }
+                },
+                {
+                  "project": {
+                    "name": "Project 4",
+                    "repo": "http://url/goes/here" 
+                  }
+                }
+              ] 
+            } 
+          }
+        ] 
+      } 
+    } 
+  ] 
+}

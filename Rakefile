@@ -1,11 +1,13 @@
 require 'rubygems'
-require 'fastercsv'
+require 'json'
 require 'dm-core'
 require 'dm-migrations'
 
 require 'spec/rake/spectask'
 require 'models/category'
+require 'models/group_project'
 require 'models/project'
+require 'models/group'
 
 path_to_db = File.expand_path(File.dirname(__FILE__) + "/db")
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{path_to_db}/projects.db")
@@ -24,28 +26,42 @@ desc "Set up db"
 task :db_setup do
   DataMapper.finalize
   Project.auto_migrate!
+  GroupProject.auto_migrate!
   Category.auto_migrate!
+  Group.auto_migrate!
 end
 
 desc "Load data"
 task :load_data do
-  #load data from projects.csv into local data store
-  data = File.new("data/projects.csv").readlines
-  data.each do |line|
-    line_data = FasterCSV::parse_line(line)
-    
-    name = line_data[0].strip
-    repo = line_data[1].strip
-    desc = line_data[2].strip
-    cat  = line_data[3].strip
-    
+  json = File.new("data/projects.json").read
+  data = JSON.parse(json)
+
+  data["categories"].each do |category|
     #find or create the Category
-    category = Category.first_or_create(:name => cat)
+    stored_category = Category.first_or_create(:name => category["category"]["name"])
     
-    #don't bother creating something that's already there
-    unless Project.first(:title => name)
-      project = Project.create(:title => name, :gh_repo => repo, :summary => desc, :category => category)
-      project.save
+    category["category"]["projects"].each do |project|
+      if project["group"]
+        unless Group.first(:title => project["group"]["name"])
+          stored_group = Group.create(:title => project["group"]["name"], :summary => project["group"]["desc"], :category => stored_category)
+          stored_group.save
+        end
+        project["group"]["projects"].each do |sub_project|
+          unless Project.first(:title => sub_project["project"]["name"])
+            stored_project = Project.create(:title => sub_project["project"]["name"], :gh_repo => sub_project["project"]["repo"], :category => stored_category)
+            stored_project.groups << stored_group
+            stored_project.save
+            
+            stored_group.projects << stored_project
+            stored_group.save
+          end
+        end
+      else
+        unless Project.first(:title => project["project"]["name"])
+          stored_project = Project.create(:title => project["project"]["name"], :gh_repo => project["project"]["repo"], :category => stored_category)
+          stored_project.save
+        end
+      end
     end
   end
 end

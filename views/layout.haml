@@ -11,7 +11,19 @@
           - @categories.each do |category|
             %h2= category.name
             %ul
-              - category.projects.each do |project|
+              - category.groups.each do |group|
+                %li
+                  =group.title
+                  - if group.projects.count > 0
+                    %ul
+                      - group.projects.each do |project|
+                        %li
+                          =project.title
+                    
+                      
+              - @projects = category.projects.dup
+              - @projects.delete_if { |x| x.groups.count > 0 }
+              - @projects.each do |project|
                 %li 
                   %a{:href => "/#{project.id}"}
                     =project.title
