@@ -1,4 +1,5 @@
 data/projects.csv
+data/projects.json
 db/*.db
 .DS_Store
 */.DS_Store
