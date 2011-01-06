@@ -6,8 +6,9 @@ require 'sass'
 
 require 'models/category'
 require 'models/project'
+require 'models/group'
 
-path_to_db = File.expand_path(File.dirname(__FILE__) + "/../db")
+path_to_db = File.expand_path(File.dirname(__FILE__) + "/db")
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{path_to_db}/projects.db")
 
 get "/favicon.ico" do
