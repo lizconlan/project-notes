@@ -49,6 +49,7 @@ end
 get '/:category/:group/:title/?' do
   category = params[:category]
   @category = Category.first(:slug => category)
+  @group = Group.first(:slug => params[:group])
   
   title = params[:title]
   @project = Project.first(:slug => title)

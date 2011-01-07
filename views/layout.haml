@@ -7,6 +7,30 @@
     .outer_container
       .inner_container
         %h1 Projects
-        .sidebar
         .content
+          .trail              
+            - if @category
+              %a{:href => "/"} Home
+              - if @group
+                &gt;
+                %a{:href => "/#{@category.slug}"}= @category.name
+                - if @project
+                  &gt;
+                  %a{:href => "/#{@category.slug}/#{@group.slug}"}= @group.title
+                  &gt;
+                  =@project.title
+                - else
+                  &gt;
+                  =@group.title
+              - else
+                - if @project
+                  &gt;
+                  %a{:href => "/#{@category.slug}"}= @category.name
+                  &gt;
+                  =@project.title
+                - else
+                  &gt;
+                  =@category.name
+            - else
+              Home
           =yield
