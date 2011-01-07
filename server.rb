@@ -12,7 +12,7 @@ path_to_db = File.expand_path(File.dirname(__FILE__) + "/db")
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{path_to_db}/projects.db")
 
 get "/favicon.ico" do
-  ""
+  status 404
 end
 
 get "/styles.css" do
@@ -24,10 +24,32 @@ get '/' do
   haml :index
 end
 
-get '/:id' do
-  id = params[:id]
+get '/:category/?' do
+  category = params[:category]
   
-  @categories = Category.all
-  @project = Project.get(id)
+  @category = Category.first(:slug => category)
+  haml :category
+end
+
+get '/:category/:title/?' do
+  category = params[:category]
+  @category = Category.first(:slug => category)
+  
+  title = params[:title]
+  @group = Group.first(:slug => title)
+  if @group
+    haml :group
+  else
+    @project = Project.first(:slug => title)
+    haml :project
+  end
+end
+
+get '/:category/:group/:title/?' do
+  category = params[:category]
+  @category = Category.first(:slug => category)
+  
+  title = params[:title]
+  @project = Project.first(:slug => title)
   haml :project
 end

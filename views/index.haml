@@ -1,1 +1,23 @@
 %h2 initial greeting goes here
+
+- @categories.each do |category|
+  %h2= category.name
+  %ul
+    - category.groups.each do |group|
+      %li
+        %a{:href => "/#{category.slug}/#{group.slug}"}
+          =group.title
+        - if group.projects.count > 0
+          %ul
+            - group.projects.each do |project|
+              %li
+                %a{:href => "/#{category.slug}/#{group.slug}/#{project.slug}"}
+                  =project.title
+          
+            
+    - projects = category.projects.dup
+    - projects.delete_if { |x| x.groups.count > 0 }
+    - projects.each do |project|
+      %li 
+        %a{:href => "/#{category.slug}/#{project.slug}"}
+          =project.title

@@ -1,0 +1,7 @@
+=@group.summary
+
+%ul
+  - @group.projects.each do |project|
+    %li
+      %a{:href => "/#{@category.slug}/#{@group.slug}/#{project.slug}"}
+        =project.title
