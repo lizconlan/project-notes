@@ -10,6 +10,7 @@ class Project
   property :title,   String
   property :summary, String
   property :gh_repo, String
+  property :slug,    String
   
   belongs_to :category
   has n, :groups, :through => Resource
@@ -17,10 +18,6 @@ class Project
   def init
     @gh_data = gh_repo_data() unless @gh_data
     @commits = gh_commit_data() unless @commits
-  end
-  
-  def link
-    "/#{id}"
   end
   
   def gh_desc

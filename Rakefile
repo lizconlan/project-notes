@@ -38,17 +38,19 @@ task :load_data do
 
   data["categories"].each do |category|
     #find or create the Category
-    stored_category = Category.first_or_create(:name => category["category"]["name"])
+    stored_category = Category.first_or_create(:name => category["category"]["name"], :slug => category["category"]["name"].downcase.gsub("-", "--").gsub(" ", "-"))
     
     category["category"]["projects"].each do |project|
       if project["group"]
         unless Group.first(:title => project["group"]["name"])
           stored_group = Group.create(:title => project["group"]["name"], :summary => project["group"]["desc"], :category => stored_category)
+          stored_group.slug = project["group"]["name"].downcase.gsub("-", "--").gsub(" ", "-")
           stored_group.save
         end
         project["group"]["projects"].each do |sub_project|
           unless Project.first(:title => sub_project["project"]["name"])
             stored_project = Project.create(:title => sub_project["project"]["name"], :gh_repo => sub_project["project"]["repo"], :category => stored_category)
+            stored_project.slug = sub_project["project"]["name"].downcase.gsub("-", "--").gsub(" ", "-")
             stored_project.groups << stored_group
             stored_project.save
             
@@ -59,6 +61,7 @@ task :load_data do
       else
         unless Project.first(:title => project["project"]["name"])
           stored_project = Project.create(:title => project["project"]["name"], :gh_repo => project["project"]["repo"], :category => stored_category)
+          stored_project.slug = project["project"]["name"].downcase.gsub("-", "--").gsub(" ", "-")
           stored_project.save
         end
       end
