@@ -1,5 +1,12 @@
-=@group.summary
+%h2= @group.title
 
+- if @group.summary.length > 0
+  %p
+    =@group.summary
+  
+%p
+  The project consists of the following:
+  
 %ul
   - @group.projects.each do |project|
     %li

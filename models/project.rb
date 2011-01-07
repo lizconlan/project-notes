@@ -18,6 +18,7 @@ class Project
   def init
     @gh_data = gh_repo_data() unless @gh_data
     @commits = gh_commit_data() unless @commits
+    @gh_contribs = gh_contribs_data()
   end
   
   def gh_desc
@@ -26,6 +27,10 @@ class Project
   
   def gh_homepage
     @gh_data['repository']['homepage']
+  end
+  
+  def gh_contribs
+    @gh_contribs
   end
   
   def commits_by_month_and_year month, year
@@ -49,6 +54,41 @@ class Project
         commits << Commit.new(commit['committed_date'], commit['message'])
       end
       commits
+    end
+    
+    def gh_contribs_data
+      path = gh_repo.gsub("http://github.com/", "")      
+      
+      #grab the main contributors data
+      result = RestClient.get("http://github.com/api/v2/json/repos/show/#{path}/contributors")
+      data = JSON.parse(result.body)
+      contribs = data['contributors'].collect{ |x| {:name => x["name"], :login => x["login"]} }
+      
+      #grab the "anon" results
+      result = RestClient.get("http://github.com/api/v2/json/repos/show/#{path}/contributors/anon")
+      data = JSON.parse(result.body)
+      anon = data['contributors'].collect{ |x| x["name"] }
+
+      #remove duplicates...
+      anon.delete_if { |x| contribs.collect{ |c| c[:login]}.include?(x) }
+      #...and anything that doesn't look like a login name
+      anon.delete_if{ |x| x != x.downcase }
+      
+
+      #if there's anything left, add the other contributors
+      if anon.length > 0
+        anon.each do |name|
+          begin
+            result = RestClient.get("http://github.com/api/v2/json/user/show/#{name}")
+            data = JSON.parse(result.body)
+            contribs << {:name => data["user"]["name"], :login => data["user"]["login"]}
+          rescue
+            #don't add the genuinely anonymous names, too weird
+          end
+        end
+      end
+      
+      contribs
     end
 end
 

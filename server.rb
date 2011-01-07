@@ -41,6 +41,7 @@ get '/:category/:title/?' do
     haml :group
   else
     @project = Project.first(:slug => title)
+    @project.init()
     haml :project
   end
 end
@@ -51,5 +52,6 @@ get '/:category/:group/:title/?' do
   
   title = params[:title]
   @project = Project.first(:slug => title)
+  @project.init()
   haml :project
 end
