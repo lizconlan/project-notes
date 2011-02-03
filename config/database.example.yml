@@ -1,0 +1,21 @@
+development:
+  adapter: mysql
+  database: projectnotes_development
+  username: 
+  password: 
+  socket: /tmp/mysql.sock
+
+test:
+  adapter: mysql
+  database: projectnotes_test
+  username: 
+  password: 
+  socket: /tmp/mysql.sock
+    
+    
+production:
+  adapter: mysql
+  database: projectnotes_production
+  username: 
+  password: 
+  socket: /tmp/mysql.sock
