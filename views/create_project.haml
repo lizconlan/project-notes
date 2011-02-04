@@ -1,6 +1,6 @@
 %form{:method => 'post'}
-  - if session[:message]
-    %p= session[:message]
+  - if @error
+    %p= @error
   #login_box
     %label{:for => "name"} Project name
     %input{:type => "text", :size => 30, :name => "project[name]", :id => "name"}

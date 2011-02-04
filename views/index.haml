@@ -4,4 +4,6 @@
   %p
     nothing to see here, move along
 - @projects.each do |project|
-  %h2= project.name
+  %p
+    %a{:href=>project.slug}= project.name
+    %br

@@ -1,19 +1,8 @@
-- if @project
-  %h2= @project.title
-  
+%h2= @project.name
+
+- if current_user.admin?
   %p
-    =@project.gh_desc
-  
-  %p
-    Written by
-    %ul
-      - @project.gh_contribs.each do |contrib|
-        %li
-          %a{:href => "http://github.com/#{contrib[:login]}"}= contrib[:name]
-  
-  %p
-    %a{:href => @project.gh_repo} Browse the code
-    
-  - if @project.gh_homepage.length > 0
-    %p
-      %a{:href => @project.gh_homepage} Visit site
+    %a{:href => "/#{@project.slug}/edit"} Edit
+
+%p
+  =@project.html_description

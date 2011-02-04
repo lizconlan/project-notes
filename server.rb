@@ -104,11 +104,45 @@ get "/logout/?" do
 end
 
 get "/:project/?" do
+  project_slug = params[:project]
+  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  haml :project
 end
 
-get "/:project/new/?" do
+get "/project/new/?" do
   haml :create_project
 end
 
+post "/project/new/?" do
+  case params[:project]["name"]
+    when nil, ""
+      @error = "Project must have a name"
+      haml :create_project
+    when /project|login|logout|new/i
+      @error = "Sorry <strong>#{params[:project]["name"]}</strong> can't be a project name"
+      haml :create_project
+    else
+      if Project.find_by_name(params[:project]["name"])
+        @error = "Hey, you already have one of those!"
+        haml :create_project
+      else
+        project = Project.new(:name => params[:project]["name"], :description => params[:project]["description"])
+        project.save
+        redirect "/"
+      end
+  end 
+end
+
 get "/:project/edit/?" do
+  project_slug = params[:project]
+  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  haml :edit_project
+end
+
+post "/:project/edit/?" do
+  project_slug = params[:project]
+  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @project.description = params[:edit]["description"]
+  @project.save
+  redirect "/#{@project.slug}"
 end
