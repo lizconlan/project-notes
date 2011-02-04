@@ -1,3 +1,5 @@
+- if current_user.admin?
+  %a{:href => "/project/new"} Create a new project
 -if @projects.empty?
   %p
     nothing to see here, move along

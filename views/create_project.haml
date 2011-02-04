@@ -1,0 +1,11 @@
+%form{:method => 'post'}
+  - if session[:message]
+    %p= session[:message]
+  #login_box
+    %label{:for => "name"} Project name
+    %input{:type => "text", :size => 30, :name => "project[name]", :id => "name"}
+    %br
+    %label{:for => "desc"} Description
+    %textarea{:cols => 30, :rows => 8, :name => "project[description]", :id => "desc"}
+    %br
+    %input{:type => "submit", :value => "Save"}
