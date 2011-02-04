@@ -1,36 +1,21 @@
 %html
   %head
-    %title Projects
+    %title= @title || "Project Notes"
     %link{:type => "text/css", :rel => "stylesheet", :href => "/styles.css"}
     %meta{:charset => "UTF-8"}
   %body
+    =current_user.inspect
+    %nav#navbar
+      - if @current_user
+        %a{:href => "/logout"} Log Out
+      - else
+        - if ENV["RACK_ENV"] == "production"
+          %a{:href => "https://#{@env["HTTP_HOST"]}/login"} Log In
+        - else
+          %a{:href => "/login"} Log In
     .outer_container
       .inner_container
         %h1 Projects
         .content
-          .trail              
-            - if @category
-              %a{:href => "/"} Home
-              - if @group
-                &gt;
-                %a{:href => "/#{@category.slug}"}= @category.name
-                - if @project
-                  &gt;
-                  %a{:href => "/#{@category.slug}/#{@group.slug}"}= @group.title
-                  &gt;
-                  =@project.title
-                - else
-                  &gt;
-                  =@group.title
-              - else
-                - if @project
-                  &gt;
-                  %a{:href => "/#{@category.slug}"}= @category.name
-                  &gt;
-                  =@project.title
-                - else
-                  &gt;
-                  =@category.name
-            - else
-              Home
+          .trail
           =yield

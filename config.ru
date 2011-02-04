@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler'
 
-Bundle.setup
+Bundler.setup
 
 require File.dirname(__FILE__) + "/server"
 

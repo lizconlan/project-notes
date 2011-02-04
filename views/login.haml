@@ -1,0 +1,11 @@
+%form{:method => 'post'}
+  - if session[:message]
+    %p= session[:message]
+  #login_box
+    %label{:for => "name"} Username
+    %input{:type => "text", :size => 30, :name => "user[login]", :id => "name"}
+    %br
+    %label{:for => "name"} Password
+    %input{:type => "password", :size => 30, :name => "user[password]", :id => "pass"}
+    %br
+    %input{:type => "submit", :value => "Log In"}
