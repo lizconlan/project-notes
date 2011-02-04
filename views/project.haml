@@ -1,6 +1,6 @@
 %h2= @project.name
 
-- if current_user.admin?
+- if current_user && current_user.admin?
   %p
     %a{:href => "/#{@project.slug}/edit"} Edit
 
