@@ -103,16 +103,11 @@ get "/logout/?" do
   redirect '/'
 end
 
-get "/account/create/?" do
-end
-
-get "/account/:name/?" do
-end
-
-get "/account/:name/destroy/?" do
-end
-
 get "/:project/?" do
+end
+
+get "/:project/new/?" do
+  haml :create_project
 end
 
 get "/:project/edit/?" do

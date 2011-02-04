@@ -6,7 +6,6 @@ class CreateProjects < ActiveRecord::Migration
       t.string :teaser
       t.string :category
       t.string :description
-      t.integer :account_id
     end
   end
   
