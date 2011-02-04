@@ -4,9 +4,8 @@
     %link{:type => "text/css", :rel => "stylesheet", :href => "/styles.css"}
     %meta{:charset => "UTF-8"}
   %body
-    =current_user.inspect
     %nav#navbar
-      - if @current_user
+      - if current_user
         %a{:href => "/logout"} Log Out
       - else
         - if ENV["RACK_ENV"] == "production"
