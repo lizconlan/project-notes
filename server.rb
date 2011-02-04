@@ -98,8 +98,8 @@ post "/login/?" do
 end
 
 get "/logout/?" do
+  current_user.reset_persistence_token
   current_user_session.destroy
-  response.set_cookie("rack.session", { :expires => Time.now - 36000})
   redirect '/'
 end
 

@@ -14,7 +14,8 @@ class User < ActiveRecord::Base
       elsif password.blank?
         raise 'password cannot be blank'
       else
-        User.create!(:login=>'admin', :admin=>true, :password=>password, :password_confirmation=>password)
+        @user = User.new(:login=>'admin', :admin=>true, :password=>password, :password_confirmation=>password)
+        @user.save_without_session_maintenance
       end
     end
   end
