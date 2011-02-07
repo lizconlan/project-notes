@@ -107,6 +107,7 @@ end
 get "/:project/?" do
   project_slug = params[:project]  
   @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  raise project_slug
   raise @project.inspect
   haml :project
 end
