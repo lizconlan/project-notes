@@ -1,0 +1,14 @@
+%form{:method => 'post'}
+  - if @error
+    %p= @error
+  #repo
+    %label{:for => "name"} Repository Name
+    %input{:type => "text", :size => 30, :name => "edit[name]", :id => "name"}
+    %br
+    %label{:for => "url"} Github URL
+    %input{:type => "text", :size => 50, :name => "edit[url]", :id => "url"}
+    %br
+    %label{:for => "notes"} Notes (optional)
+    %input{:type => "text", :size => 30, :name => "edit[notes]", :id => "notes"}
+    %br
+    %input{:type => "submit", :value => "Save"}

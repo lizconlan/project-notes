@@ -1,8 +1,19 @@
 %h2= @project.name
 
 - if current_user && current_user.admin?
-  %p
+  %nav#in_place_edit
     %a{:href => "/#{@project.slug}/edit"} Edit
 
-%p
+.desc
   =@project.html_description
+  
+- if @project.repositories.count > 0
+  %section#repositories
+    %h3 Repositories
+    - @project.repositories.each do |repo|
+      %h4= repo.name
+      %p
+        =repo.description
+        - if repo.notes.length > 0
+          %p.notes
+            ="(#{repo.notes})"

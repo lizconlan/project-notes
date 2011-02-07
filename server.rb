@@ -6,6 +6,7 @@ require 'active_record'
 require 'models/user'
 require 'models/user_session'
 require 'models/project'
+require 'models/repository'
 
 require 'authlogic' 
 
@@ -118,7 +119,7 @@ post "/project/new/?" do
     when nil, ""
       @error = "Project must have a name"
       haml :create_project
-    when /project|login|logout|new/i
+    when /$(project|login|logout|new)^/i
       @error = "Sorry <strong>#{params[:project]["name"]}</strong> can't be a project name"
       haml :create_project
     else
@@ -145,4 +146,22 @@ post "/:project/edit/?" do
   @project.description = params[:edit]["description"]
   @project.save
   redirect "/#{@project.slug}"
+end
+
+get "/:project/add_repo/?" do
+  project_slug = params[:project]
+  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  haml :add_repo  
+end
+
+post "/:project/add_repo/?" do
+  project_slug = params[:project]
+  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @repo = Repository.new
+  @repo.name = params['edit']['name']
+  @repo.github_url = params['edit']['url']
+  @repo.notes = params['edit']['notes']
+  @project.repositories << @repo
+  @project.save
+  redirect "/#{@project.slug}/edit"
 end
