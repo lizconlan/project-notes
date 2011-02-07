@@ -185,7 +185,7 @@ post "/:project/add_repo/?" do
   @project = Project.find_by_slug(project_slug)
   @repo = Repository.new
   @repo.name = params['edit']['name']
-  @repo.github_url = params['edit']['url']
+  @repo.github_url = params['edit']['url'].gsub("https://", "http://")
   @repo.notes = params['edit']['notes']
   @project.repositories << @repo
   @project.save
