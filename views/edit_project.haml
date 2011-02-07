@@ -10,11 +10,11 @@
     %br
     - if @project.repositories.count > 0
       %h3 Repositories
-    - @project.repositories.each do |repo|
-      %p
-        %h4= repo.name
-        %br
-        =repo.description
+      - @project.repositories.each do |repo|
+        %p
+          %h4= repo.name
+          %br
+          =repo.description
     %p
       %a{:href => "/#{@project.slug}/add_repo"} Add repository
     %input{:type => "submit", :value => "Save"}
