@@ -106,9 +106,7 @@ end
 
 get "/:project/?" do
   project_slug = params[:project]  
-  @project = Project.find_by_name(Project.slug_to_name(project_slug))
-  raise Project.slug_to_name(project_slug)
-  raise @project.inspect
+  @project = Project.find_by_slug(project_slug)
   haml :project
 end
 
@@ -130,6 +128,7 @@ post "/project/new/?" do
         haml :create_project
       else
         project = Project.new(:name => params[:project]["name"], :description => params[:project]["description"])
+        project.slug = Project.make_slug(project.name)
         project.save
         redirect "/"
       end
@@ -138,13 +137,13 @@ end
 
 get "/:project/edit/?" do
   project_slug = params[:project]
-  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @project = Project.find_by_slug(project_slug)
   haml :edit_project
 end
 
 post "/:project/edit/?" do
   project_slug = params[:project]
-  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @project = Project.find_by_slug(project_slug)
   @project.description = params[:edit]["description"]
   @project.save
   redirect "/#{@project.slug}"
@@ -152,13 +151,13 @@ end
 
 get "/:project/add_repo/?" do
   project_slug = params[:project]
-  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @project = Project.find_by_slug(project_slug)
   haml :add_repo  
 end
 
 post "/:project/add_repo/?" do
   project_slug = params[:project]
-  @project = Project.find_by_name(Project.slug_to_name(project_slug))
+  @project = Project.find_by_slug(project_slug)
   @repo = Repository.new
   @repo.name = params['edit']['name']
   @repo.github_url = params['edit']['url']

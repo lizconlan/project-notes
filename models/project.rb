@@ -5,11 +5,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :permissions
   has_many :repositories
   
-  def self.slug_to_name(slug)
-    slug.gsub("--", "^").gsub("-", " ").gsub("^","-")
-  end
-  
-  def slug
+  def self.make_slug name
     name.downcase.gsub("-", "--").gsub(" ", "-")
   end
   

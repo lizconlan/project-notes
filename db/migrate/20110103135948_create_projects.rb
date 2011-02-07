@@ -3,6 +3,7 @@ class CreateProjects < ActiveRecord::Migration
     create_table :projects do |t|
       t.string :name
       t.string :status
+      t.string :slug
       t.string :teaser
       t.string :category
       t.string :description
