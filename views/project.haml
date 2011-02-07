@@ -11,7 +11,8 @@
   %section#repositories
     %h3 Repositories
     - @project.repositories.each do |repo|
-      %h4= repo.name
+      %h4
+        %a{:href => repo.github_url}= repo.name
       %p
         =repo.description
         - if repo.notes.length > 0
