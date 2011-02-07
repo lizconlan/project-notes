@@ -13,8 +13,9 @@
     - @project.repositories.each do |repo|
       %h4
         %a{:href => repo.github_url}= repo.name
-      %p
-        =repo.description
-        - if repo.notes.length > 0
-          %p.notes
-            ="(#{repo.notes})"
+      - unless repo.description == repo.name
+        %p
+          =repo.description
+          - if repo.notes.length > 0
+            %p.notes
+              ="(#{repo.notes})"
