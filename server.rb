@@ -97,7 +97,7 @@ post "/login/?" do
   @user_session = UserSession.new(params[:user])
   if @user_session.save
     session[:message] = ""
-    redirect '/'
+    redirect "http://#{@env["HTTP_HOST"]}/"
   else
     session[:message] = "Username and password combination not recognised"
     haml :login
