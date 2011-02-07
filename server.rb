@@ -67,6 +67,12 @@ helpers do
     return @current_user if defined?(@current_user)
     @current_user = current_user_session && current_user_session.record
   end
+  
+  def protect redir="/"
+    unless current_user && current_user.admin?
+      redirect redir
+    end
+  end
 end
 
 get "/favicon.ico" do
@@ -105,16 +111,22 @@ get "/logout/?" do
 end
 
 get "/:project/?" do
-  project_slug = params[:project]  
+  project_slug = params[:project]
   @project = Project.find_by_slug(project_slug)
+  redirect "/" unless @project
+  
   haml :project
 end
 
 get "/project/new/?" do
+  protect()
+  
   haml :create_project
 end
 
 post "/project/new/?" do
+  protect()
+  
   case params[:project]["name"]
     when nil, ""
       @error = "Project must have a name"
@@ -137,13 +149,22 @@ end
 
 get "/:project/edit/?" do
   project_slug = params[:project]
+  protect("/#{project_slug}")
+  
   @project = Project.find_by_slug(project_slug)
   haml :edit_project
 end
 
 post "/:project/edit/?" do
   project_slug = params[:project]
+  protect("/#{project_slug}")
+  
   @project = Project.find_by_slug(project_slug)
+  unless @project.name == params[:edit]["name"]
+    @project.name = params[:edit]["name"]
+    @project.slug = Project.make_slug(@project.name)
+  end
+  
   @project.description = params[:edit]["description"]
   @project.save
   redirect "/#{@project.slug}"
@@ -151,12 +172,16 @@ end
 
 get "/:project/add_repo/?" do
   project_slug = params[:project]
+  protect("/#{project_slug}")
+  
   @project = Project.find_by_slug(project_slug)
   haml :add_repo  
 end
 
 post "/:project/add_repo/?" do
   project_slug = params[:project]
+  protect("/#{project_slug}")
+  
   @project = Project.find_by_slug(project_slug)
   @repo = Repository.new
   @repo.name = params['edit']['name']
