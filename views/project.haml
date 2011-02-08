@@ -21,8 +21,8 @@
     - @project.repositories.each do |repo|
       %dl
         %dt
-          %a{:href => repo.github_url}= repo.name
-        - unless repo.description.downcase == repo.name.downcase
+          %a{:href => repo.url}= repo.name
+        - if repo.description and repo.description.downcase != repo.name.downcase
           %dd
             =repo.description
             - if repo.notes.length > 0
