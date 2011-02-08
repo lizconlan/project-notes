@@ -12,7 +12,7 @@
       %h3 Public URLs
       %ul
       - @project.public_urls.each do |link|
-        %li
+        %li.editable
           %a{:href=>link.link}= link.link_text
           %nav.delete_link
             %a.edit_link{:href => "/#{@project.slug}/delete_link/?id=#{link.id}"} Delete URL
@@ -24,7 +24,7 @@
       - @project.repositories.each do |repo|
         %p
           %h4= repo.name
-          %nav.delete_link
+          %nav.delete_repository
             %a.edit_link{:href => "/#{@project.slug}/delete_repo/?id=#{repo.id}"} Delete repository
     %p
       %a{:href => "/#{@project.slug}/add_repo"} Add repository
