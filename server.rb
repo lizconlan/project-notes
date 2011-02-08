@@ -213,3 +213,14 @@ post "/:project/add_link/?" do
   @project.save
   redirect "/#{@project.slug}/edit"
 end
+
+get "/:project/delete_repo/" do
+  project_slug = params[:project]
+  protect("/#{project_slug}")
+  repo_id = params[:id]
+  
+  @repo = Repository.find(repo_id)
+  @repo.delete
+  
+  redirect "/#{project_slug}/edit"
+end

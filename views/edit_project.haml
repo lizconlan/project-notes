@@ -22,8 +22,8 @@
       - @project.repositories.each do |repo|
         %p
           %h4= repo.name
-          %br
-          =repo.description
+          %nav.delete_link
+            %a.edit_link{:href => "/#{@project.slug}/delete_repo/?id=#{repo.id}"} Delete repository
     %p
       %a{:href => "/#{@project.slug}/add_repo"} Add repository
     %input{:type => "submit", :value => "Save"}
