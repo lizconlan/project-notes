@@ -19,11 +19,12 @@
   %section#repositories
     %h3 Repositories
     - @project.repositories.each do |repo|
-      %h4
-        %a{:href => repo.github_url}= repo.name
-      - unless repo.description.downcase == repo.name.downcase
-        %p
-          =repo.description
-          - if repo.notes.length > 0
-            %p.notes
-              ="(#{repo.notes})"
+      %dl
+        %dt
+          %a{:href => repo.github_url}= repo.name
+        - unless repo.description.downcase == repo.name.downcase
+          %dd
+            =repo.description
+            - if repo.notes.length > 0
+              %span.notes
+                ="(#{repo.notes})"
