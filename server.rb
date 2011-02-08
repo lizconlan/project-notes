@@ -224,3 +224,14 @@ get "/:project/delete_repo/" do
   
   redirect "/#{project_slug}/edit"
 end
+
+get "/:project/delete_link/" do
+  project_slug = params[:project]
+  protect("/#{project_slug}")
+  link_id = params[:id]
+  
+  @link = PublicUrl.find(link_id)
+  @link.delete
+  
+  redirect "/#{project_slug}/edit"
+end

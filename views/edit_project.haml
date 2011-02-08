@@ -14,6 +14,8 @@
       - @project.public_urls.each do |link|
         %li
           %a{:href=>link.link}= link.link_text
+          %nav.delete_link
+            %a.edit_link{:href => "/#{@project.slug}/delete_link/?id=#{link.id}"} Delete URL
     %p
       %a{:href => "/#{@project.slug}/add_link"} Add public url
     %br
