@@ -1,10 +1,11 @@
 - if current_user && current_user.admin?
   %nav#add_new_stuff
     %a{:href => "/project/new"} Create a new project
--if @projects.empty?
-  %p
-    nothing to see here, move along
-- @projects.each do |project|
-  %p
-    %a{:href=>project.slug}= project.name
-    %br
+%section#main
+  -if @projects.empty?
+    %p
+      nothing to see here, move along
+  - @projects.each do |project|
+    %p
+      %a{:href=>project.slug}= project.name
+      %br

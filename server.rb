@@ -7,6 +7,7 @@ require 'models/user'
 require 'models/user_session'
 require 'models/project'
 require 'models/repository'
+require 'models/public_url'
 
 require 'authlogic' 
 
@@ -188,6 +189,27 @@ post "/:project/add_repo/?" do
   @repo.github_url = params['edit']['url'].gsub("https://", "http://")
   @repo.notes = params['edit']['notes']
   @project.repositories << @repo
+  @project.save
+  redirect "/#{@project.slug}/edit"
+end
+
+get "/:project/add_link/?" do
+  project_slug = params[:project]
+  protect("/#{project_slug}")
+  
+  @project = Project.find_by_slug(project_slug)
+  haml :add_url
+end
+
+post "/:project/add_link/?" do
+  project_slug = params[:project]
+  protect("/#{project_slug}")
+  
+  @project = Project.find_by_slug(project_slug)
+  @link = PublicUrl.new
+  @link.link_text = params['edit']['link_text']
+  @link.link = params['edit']['url']
+  @project.public_urls << @link
   @project.save
   redirect "/#{@project.slug}/edit"
 end

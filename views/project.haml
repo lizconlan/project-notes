@@ -6,7 +6,15 @@
 
 .desc
   =@project.html_description
-  
+
+- if @project.public_urls.count > 0
+  %section#urls
+    %h3 Public URLs
+    %ul
+      - @project.public_urls.each do |link|
+        %li
+          %a{:href => link.link}= link.link_text
+
 - if @project.repositories.count > 0
   %section#repositories
     %h3 Repositories

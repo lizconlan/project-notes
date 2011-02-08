@@ -1,0 +1,12 @@
+%form{:method => 'post'}
+  - if @error
+    %p= @error
+  #repo
+    %label{:for => "link_text"} Link text
+    %input{:type => "text", :size => 30, :name => "edit[link_text]", :id => "link_text"}
+    %br
+    %label{:for => "url"} Link URL
+    %input{:type => "text", :size => 30, :name => "edit[url]", :id => "url"}
+    %br
+    %br
+    %input{:type => "submit", :value => "Save"}

@@ -8,6 +8,15 @@
     %label{:for => "desc"} Description
     %textarea{:cols => 30, :rows => 8, :name => "edit[description]", :id => "desc"}= @project.description
     %br
+    - if @project.public_urls.count > 0
+      %h3 Public URLs
+      %ul
+      - @project.public_urls.each do |link|
+        %li
+          %a{:href=>link.link}= link.link_text
+    %p
+      %a{:href => "/#{@project.slug}/add_link"} Add public url
+    %br
     - if @project.repositories.count > 0
       %h3 Repositories
       - @project.repositories.each do |repo|
