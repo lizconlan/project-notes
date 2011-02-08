@@ -1,7 +1,7 @@
 %form{:method => 'post'}
   - if @error
     %p= @error
-  #login_box
+  #edit_box
     %label{:for => "name"} Project name
     %input{:type => "text", :size => 30, :name => "project[name]", :id => "name"}
     %br

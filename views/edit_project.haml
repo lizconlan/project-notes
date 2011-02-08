@@ -1,7 +1,10 @@
+%nav#editor
+  %a{:href => "/#{@project.slug}"} Switch to Page View
+
 %form{:method => 'post'}
   - if @error
     %p= @error
-  #login_box
+  #edit_box
     %label{:for => "name"} Project name
     %input{:type => "text", :size => 30, :name => "edit[name]", :id => "name", :value => @project.name}
     %br

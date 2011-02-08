@@ -13,6 +13,14 @@ body
   float: left
   width: 100%
 
+nav#editor
+  width: 100%
+  float: left
+  padding: 0 0 1em 0
+  
+  a
+    float: right
+
 #navbar
   width: 100%
   background: #000
@@ -24,16 +32,27 @@ body
     color: #FFF
     padding: 0 1em
     
-#login_box
+#login_box,
+#edit_box
   float: left
   border: 1px solid black
-  background: silver
+  background: lightgrey
   padding: 1em
+  
+#edit_box
+  width: 95%
 
 h1
   float: left
   width: 100%
   text-align: center
+  
+  a
+    text-decoration: none
+    color: #000
+    
+  a:hover
+    text-decoration: underline
 
 h2
   float: left
@@ -46,6 +65,7 @@ h4
 
 .content
   float: left
+  width: 100%
   margin-left: 6px
   
 nav#in_place_edit

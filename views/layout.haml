@@ -14,7 +14,8 @@
           %a{:href => "/login"} Log In
     .outer_container
       .inner_container
-        %h1 Projects
+        %h1
+          %a{:href => "/"}
+            = @title || "Project Notes"
         .content
-          .trail
           =yield
